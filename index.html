@@ -35,46 +35,46 @@
 
         /* Animations */
         @keyframes fadeIn {
-            from { 
-                opacity: 0; 
-                transform: translateY(30px); 
+            from {
+                opacity: 0;
+                transform: translateY(30px);
             }
-            to { 
-                opacity: 1; 
-                transform: translateY(0); 
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
 
         @keyframes slideInLeft {
-            from { 
-                opacity: 0; 
-                transform: translateX(-50px); 
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
             }
-            to { 
-                opacity: 1; 
-                transform: translateX(0); 
+            to {
+                opacity: 1;
+                transform: translateX(0);
             }
         }
 
         @keyframes slideInRight {
-            from { 
-                opacity: 0; 
-                transform: translateX(50px); 
+            from {
+                opacity: 0;
+                transform: translateX(50px);
             }
-            to { 
-                opacity: 1; 
-                transform: translateX(0); 
+            to {
+                opacity: 1;
+                transform: translateX(0);
             }
         }
 
         @keyframes scaleIn {
-            from { 
-                opacity: 0; 
-                transform: scale(0.8); 
+            from {
+                opacity: 0;
+                transform: scale(0.8);
             }
-            to { 
-                opacity: 1; 
-                transform: scale(1); 
+            to {
+                opacity: 1;
+                transform: scale(1);
             }
         }
 
@@ -796,7 +796,6 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header class="header" id="header">
         <div class="header-content">
             <div class="logo-section">
@@ -820,9 +819,7 @@
         </div>
     </header>
 
-    <!-- Main Content -->
     <main class="main-content loading">
-        <!-- Hero Section -->
         <section id="overview" class="hero">
             <div class="hero-content">
                 <h1>New Relationship Manager<br>Training Module</h1>
@@ -833,41 +830,36 @@
             </div>
         </section>
 
-        <!-- Days Overview Grid -->
         <section id="schedule">
             <div class="section-header">
                 <h2>12-Day Training Schedule</h2>
                 <p>Click on any day card to view detailed training content and objectives</p>
             </div>
             <div class="days-grid" id="daysGrid">
-                <!-- Day cards will be dynamically generated -->
-            </div>
+                </div>
         </section>
 
-        <!-- Day Detail View -->
         <div id="dayDetail" class="day-detail">
             <button class="back-button" onclick="showOverview()">← Back to Overview</button>
             <div id="dayDetailContent"></div>
         </div>
 
-        <!-- Bangalore Map Section -->
         <section id="map" class="map-section">
             <h2>🗺️ Bangalore Real Estate Market Map</h2>
             <p>Understanding key locations and connectivity for efficient meeting planning</p>
             <div class="map-container">
-                <iframe 
+                <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d248849.56658586605!2d77.49085429358436!2d12.954179926665544!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c9b44e6d%3A0xf8dfc3e8517e4fe0!2sBengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1234567890"
-                    width="100%" 
-                    height="100%" 
-                    style="border:0;" 
-                    allowfullscreen="" 
+                    width="100%"
+                    height="100%"
+                    style="border:0;"
+                    allowfullscreen=""
                     loading="lazy"
                     title="Bangalore Map">
                 </iframe>
             </div>
         </section>
 
-        <!-- Developers Section -->
         <section id="developers">
             <div class="section-header">
                 <h2>🏢 Key Developer Partners</h2>
@@ -881,7 +873,6 @@
             </div>
         </section>
 
-        <!-- A-Grade Developers Table -->
         <section>
             <div class="section-header">
                 <h2>📊 A-Grade Developers & Their Projects (2025)</h2>
@@ -935,7 +926,7 @@
                 content: `
                     <h2>Day 1: Company Induction & Foundation</h2>
                     <p><strong>Objective:</strong> To understand DigitalBuzz's vision, your role within the company structure, and the basic rules of engagement.</p>
-                    
+
                     <div class="session-timeline">
                         <div class="session-block">
                             <div class="session-time">⏰ 10:00 AM - 1:00 PM</div>
@@ -947,14 +938,14 @@
                                 <li><strong>System Setup:</strong> IT orientation for email, CRM, and internal software</li>
                             </ul>
                         </div>
-                        
+
                         <div class="session-block">
                             <div class="session-time">⏰ 2:00 PM - 5:00 PM</div>
                             <div class="session-title">Business & Sales Induction</div>
                             <h4>🏢 Introduction to DigitalBuzz:</h4>
                             <p><strong>Who We Are:</strong> DigitalBuzz is a premier Real Estate Lead Generation agency. Our mission is to empower real estate professionals with high-quality, targeted leads through innovative digital marketing strategies.</p>
                             <p><strong>Our Core Business:</strong> We specialize in generating high-intent leads for real estate Channel Partners (CPs), Sole Sellers, and Developers through targeted campaigns on Meta (Facebook, Instagram) and Google.</p>
-                            
+
                             <h4>👥 Meet the Departments:</h4>
                             <ul>
                                 <li><strong>Sales:</strong> Samir Kumar (Sales Head), Jimmy (Team Lead)</li>
@@ -964,21 +955,21 @@
                                 <li><strong>Admin:</strong> Godhan</li>
                                 <li><strong>Graphics:</strong> Gautham</li>
                             </ul>
-                            
+
                             <h4>⚙️ Company Process & Workflow:</h4>
                             <ul>
                                 <li>As an RM, you are the bridge between DigitalBuzz and the client</li>
                                 <li>You will coordinate with Operations Team and Graphics Team</li>
                                 <li>The Accounts Team shares reports and invoices with clients</li>
                             </ul>
-                            
+
                             <h4>📋 Rules & Regulations:</h4>
                             <ul>
                                 <li><strong>Job Timings:</strong> 10:00 AM to 7:00 PM</li>
                                 <li><strong>Breaks:</strong> 30-minute lunch break, plus two 15-minute tea breaks</li>
                                 <li><strong>Dress Code:</strong> Business Formals</li>
                             </ul>
-                            
+
                             <h4>🚀 Your Career Path:</h4>
                             <p style="background: linear-gradient(90deg, #3498db, #e74c3c); color: white; padding: 1rem; border-radius: 10px; font-weight: bold;">
                                 Sales Executive → RM → Senior RM → Team Lead → Branch Manager → Cluster Manager → Sales Head
@@ -994,10 +985,10 @@
                 content: `
                     <h2>Day 2: Mastering the Bangalore Real Estate Market</h2>
                     <p><strong>Objective:</strong> To develop a deep understanding of the Bangalore real estate landscape, including key locations, major developers, and client profiles.</p>
-                    
+
                     <h3>🗺️ Segment 1: Bangalore Market & Connectivity Map</h3>
                     <p>Understanding the city is crucial for efficient meeting planning. As an RM with a bike, you can navigate traffic effectively by knowing the key arterial roads and metro lines.</p>
-                    
+
                     <div class="session-timeline">
                         <div class="session-block">
                             <h4>🧭 North Bangalore (Hebbal, Yelahanka, Devanahalli)</h4>
@@ -1006,7 +997,7 @@
                                 <li><strong>New Launch (2025):</strong> Prestige Somerville (near Old Airport Road)</li>
                             </ul>
                         </div>
-                        
+
                         <div class="session-block">
                             <h4>🌅 East Bangalore (Whitefield, Sarjapur Road, Marathahalli)</h4>
                             <ul>
@@ -1014,7 +1005,7 @@
                                 <li><strong>New Launch (2025):</strong> Godrej Woodscapes (Budigere Cross)</li>
                             </ul>
                         </div>
-                        
+
                         <div class="session-block">
                             <h4>🌇 South Bangalore (Kanakapura Road, Bannerghatta Road, Electronic City)</h4>
                             <ul>
@@ -1022,7 +1013,7 @@
                                 <li><strong>New Launch (2025):</strong> Brigade Sanctuary (off Sarjapur Road)</li>
                             </ul>
                         </div>
-                        
+
                         <div class="session-block">
                             <h4>🌆 West Bangalore (Rajajinagar, Yeshwanthpur, Tumkur Road)</h4>
                             <ul>
@@ -1031,7 +1022,7 @@
                             </ul>
                         </div>
                     </div>
-                    
+
                     <h3>🤝 Segment 3: The Channel Partner (CP) Profile</h3>
                     <div class="session-block">
                         <ul>
@@ -1164,7 +1155,7 @@
                 content: `
                     <h2>Day 12: Review Meeting</h2>
                     <p><strong>Objective:</strong> A comprehensive review of your performance with your Team Lead and the Sales Head.</p>
-                    
+
                     <div class="session-block">
                         <div class="session-title">📋 Final Assessment</div>
                         <h3>Agenda:</h3>
@@ -1197,18 +1188,18 @@
         // Generate day cards with staggered animations
         function generateDayCards() {
             const daysGrid = document.getElementById('daysGrid');
-            
+
             trainingDays.forEach((day, index) => {
                 const dayCard = document.createElement('div');
                 dayCard.className = `day-card animate-fade-in stagger-${Math.min(index + 1, 6)}`;
                 dayCard.onclick = () => showDayDetail(day);
-                
+
                 dayCard.innerHTML = `
                     <div class="day-number">Day ${day.day}</div>
                     <h3 class="day-title">${day.title}</h3>
                     <p class="day-objective">${day.objective}</p>
                 `;
-                
+
                 daysGrid.appendChild(dayCard);
             });
         }
@@ -1218,11 +1209,11 @@
             const daysGrid = document.getElementById('daysGrid');
             const dayDetail = document.getElementById('dayDetail');
             const dayDetailContent = document.getElementById('dayDetailContent');
-            
+
             daysGrid.style.display = 'none';
             dayDetail.classList.add('active');
             dayDetailContent.innerHTML = day.content;
-            
+
             // Scroll to top smoothly
             window.scrollTo({ top: 120, behavior: 'smooth' });
         }
@@ -1231,10 +1222,10 @@
         function showOverview() {
             const daysGrid = document.getElementById('daysGrid');
             const dayDetail = document.getElementById('dayDetail');
-            
+
             daysGrid.style.display = 'grid';
             dayDetail.classList.remove('active');
-            
+
             // Re-trigger animations
             setTimeout(() => {
                 document.querySelectorAll('.day-card').forEach((card, index) => {
@@ -1250,7 +1241,7 @@
         function toggleMobileNav() {
             const navMenu = document.getElementById('navMenu');
             const navToggle = document.getElementById('navToggle');
-            
+
             navMenu.classList.toggle('active');
             navToggle.textContent = navMenu.classList.contains('active') ? '✕' : '☰';
         }
@@ -1274,13 +1265,13 @@
                     if (target) {
                         const headerHeight = document.querySelector('.header').offsetHeight;
                         const targetPosition = target.offsetTop - headerHeight - 20;
-                        
+
                         window.scrollTo({
                             top: targetPosition,
                             behavior: 'smooth'
                         });
                     }
-                    
+
                     // Close mobile menu if open
                     const navMenu = document.getElementById('navMenu');
                     const navToggle = document.getElementById('navToggle');
@@ -1297,23 +1288,23 @@
             generateDayCards();
             setupSmoothScroll();
             observeElements();
-            
+
             // Event listeners
             document.getElementById('navToggle').addEventListener('click', toggleMobileNav);
             window.addEventListener('scroll', handleScroll);
-            
+
             // Close mobile menu when clicking outside
             document.addEventListener('click', (e) => {
                 const navMenu = document.getElementById('navMenu');
                 const navToggle = document.getElementById('navToggle');
                 const headerContent = document.querySelector('.header-content');
-                
+
                 if (!headerContent.contains(e.target) && navMenu.classList.contains('active')) {
                     navMenu.classList.remove('active');
                     navToggle.textContent = '☰';
                 }
             });
-            
+
             // Add loading animation completion
             setTimeout(() => {
                 document.querySelector('.main-content').classList.remove('loading');
@@ -1327,13 +1318,13 @@
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
-                
+
                 if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
                     const centerX = rect.width / 2;
                     const centerY = rect.height / 2;
                     const rotateX = (y - centerY) / 10;
                     const rotateY = (centerX - x) / 10;
-                    
+
                     card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px) scale(1.02)`;
                 } else {
                     card.style.transform = '';
