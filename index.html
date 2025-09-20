@@ -4,1333 +4,574 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DigitalBuzz - New RM Training Module</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* --- General Styles & Variables --- */
         :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #e74c3c;
-            --accent-color: #3498db;
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --background-color: #f4f7f9;
             --text-color: #333;
-            --bg-light: #ecf0f1;
-            --white: #ffffff;
-            --shadow: 0 2px 10px rgba(0,0,0,0.1);
-            --shadow-hover: 0 8px 25px rgba(0,0,0,0.15);
-            --gradient-primary: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
-            --gradient-card: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+            --card-bg: #ffffff;
+            --border-color: #e0e0e0;
+            --yellow-accent: #f1c40f;
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            --border-radius: 12px;
         }
 
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
             color: var(--text-color);
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            overflow-x: hidden;
+            line-height: 1.7;
+            display: flex;
         }
 
-        /* Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes scaleIn {
-            from {
-                opacity: 0;
-                transform: scale(0.8);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .animate-fade-in {
-            animation: fadeIn 0.8s ease-out forwards;
+        /* --- Animations --- */
+        .fade-in {
             opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
 
-        .animate-slide-left {
-            animation: slideInLeft 0.8s ease-out forwards;
-            opacity: 0;
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .animate-slide-right {
-            animation: slideInRight 0.8s ease-out forwards;
-            opacity: 0;
-        }
-
-        .animate-scale-in {
-            animation: scaleIn 0.6s ease-out forwards;
-            opacity: 0;
-        }
-
-        .animate-float {
-            animation: float 3s ease-in-out infinite;
-        }
-
-        /* Staggered animations */
-        .stagger-1 { animation-delay: 0.1s; }
-        .stagger-2 { animation-delay: 0.2s; }
-        .stagger-3 { animation-delay: 0.3s; }
-        .stagger-4 { animation-delay: 0.4s; }
-        .stagger-5 { animation-delay: 0.5s; }
-        .stagger-6 { animation-delay: 0.6s; }
-
-        /* Header Styles */
-        .header {
-            background: var(--gradient-primary);
-            color: var(--white);
-            padding: 1rem 0;
+        /* --- Sidebar Navigation --- */
+        .sidebar {
+            width: 280px;
+            background-color: var(--card-bg);
+            padding: 2rem 1rem;
+            height: 100vh;
             position: fixed;
-            width: 100%;
             top: 0;
-            z-index: 1000;
-            box-shadow: var(--shadow);
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-
-        .header.scrolled {
-            padding: 0.5rem 0;
-            background: rgba(44, 62, 80, 0.95);
-        }
-
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            animation: slideInLeft 0.8s ease-out;
-        }
-
-        .logo {
-            width: 50px;
-            height: 50px;
-            background: var(--white);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: var(--primary-color);
-            font-size: 1.2rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-
-        .logo:hover {
-            transform: scale(1.1) rotate(5deg);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-        }
-
-        .company-info {
+            left: 0;
+            border-right: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
+            transition: transform 0.3s ease-in-out;
         }
 
-        .company-name {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: -2px;
-        }
-
-        .tagline {
-            font-size: 0.8rem;
-            opacity: 0.9;
-            color: #bdc3c7;
-        }
-
-        /* Mobile Navigation */
-        .nav-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--white);
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .nav-toggle:hover {
-            background: rgba(255,255,255,0.1);
-            transform: scale(1.1);
-        }
-
-        .nav-menu {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-            animation: slideInRight 0.8s ease-out;
-        }
-
-        .nav-menu a {
-            color: var(--white);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-menu a::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255,255,255,0.1);
-            transition: left 0.3s ease;
-        }
-
-        .nav-menu a:hover::before {
-            left: 0;
-        }
-
-        .nav-menu a:hover {
-            transform: translateY(-2px);
-            color: #ecf0f1;
-        }
-
-        /* Main Content */
-        .main-content {
-            margin-top: 100px;
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-            padding: 2rem;
-            animation: fadeIn 1s ease-out;
-        }
-
-        /* Hero Section */
-        .hero {
-            background: var(--gradient-card);
-            border-radius: 20px;
-            padding: 4rem 2rem;
-            margin-bottom: 3rem;
-            box-shadow: var(--shadow);
+        .sidebar-header {
             text-align: center;
-            position: relative;
-            overflow: hidden;
-            animation: scaleIn 0.8s ease-out;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(52, 152, 219, 0.1) 0%, transparent 70%);
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero h1 {
-            font-size: clamp(2rem, 5vw, 3rem);
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-            font-weight: 700;
-            line-height: 1.2;
-            animation: fadeIn 1s ease-out 0.3s both;
-        }
-
-        .hero p {
-            font-size: clamp(1rem, 3vw, 1.3rem);
-            color: #666;
             margin-bottom: 2rem;
-            animation: fadeIn 1s ease-out 0.6s both;
+            padding: 0 1rem;
         }
 
-        .date-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: var(--secondary-color);
-            color: var(--white);
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 1.1rem;
-            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
-            transition: all 0.3s ease;
-            animation: scaleIn 1s ease-out 0.9s both;
-        }
-
-        .date-badge:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.4);
-        }
-
-        /* Day Cards Grid */
-        .days-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .day-card {
-            background: var(--gradient-card);
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: var(--shadow);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .day-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
-            transition: all 0.3s ease;
-        }
-
-        .day-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(52, 152, 219, 0.1), transparent);
-            transition: right 0.6s ease;
-        }
-
-        .day-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .day-card:hover::before {
-            width: 100%;
-            opacity: 0.1;
-        }
-
-        .day-card:hover::after {
-            right: 100%;
-        }
-
-        .day-number {
-            background: linear-gradient(45deg, var(--accent-color), #5dade2);
-            color: var(--white);
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1.3rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 2;
-        }
-
-        .day-card:hover .day-number {
-            transform: scale(1.1) rotate(5deg);
-            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
-        }
-
-        .day-title {
-            font-size: 1.4rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-            font-weight: 600;
-            line-height: 1.3;
-            position: relative;
-            z-index: 2;
-            transition: color 0.3s ease;
-        }
-
-        .day-card:hover .day-title {
-            color: var(--accent-color);
-        }
-
-        .day-objective {
-            color: #666;
-            font-size: 1rem;
-            line-height: 1.5;
-            position: relative;
-            z-index: 2;
-            transition: color 0.3s ease;
-        }
-
-        .day-card:hover .day-objective {
-            color: #555;
-        }
-
-        /* Day Detail Section */
-        .day-detail {
-            display: none;
-            background: var(--gradient-card);
-            border-radius: 20px;
-            padding: 3rem;
-            margin-bottom: 3rem;
-            box-shadow: var(--shadow);
-            animation: fadeIn 0.6s ease-out;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .day-detail.active {
-            display: block;
-        }
-
-        .back-button {
-            background: linear-gradient(45deg, var(--accent-color), #5dade2);
-            color: var(--white);
-            border: none;
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
-            cursor: pointer;
-            margin-bottom: 2rem;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            font-size: 1rem;
-            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .back-button:hover {
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
-        }
-
-        /* Session Timeline */
-        .session-timeline {
-            margin: 2rem 0;
-        }
-
-        .session-block {
-            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
-            border-left: 4px solid var(--accent-color);
-            padding: 2rem;
-            margin-bottom: 1.5rem;
-            border-radius: 0 15px 15px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .session-block::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
-        }
-
-        .session-block:hover {
-            transform: translateX(5px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-        }
-
-        .session-time {
-            font-weight: bold;
-            color: var(--accent-color);
+        .sidebar-header img {
+            max-width: 150px;
             margin-bottom: 0.5rem;
-            font-size: 1.1rem;
         }
 
-        .session-title {
-            font-size: 1.3rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-            font-weight: 600;
+        .sidebar-header h2 {
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+            font-weight: 400;
         }
 
-        /* Map Section */
-        .map-section {
-            background: var(--gradient-card);
-            border-radius: 20px;
-            padding: 3rem;
-            margin-bottom: 3rem;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(255,255,255,0.2);
-            animation: fadeIn 0.8s ease-out;
+        .sidebar nav ul {
+            list-style-type: none;
+            overflow-y: auto;
+            flex-grow: 1;
         }
 
-        .map-section h2 {
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-            font-size: 2rem;
-            font-weight: 600;
-        }
-
-        .map-container {
-            width: 100%;
-            height: 500px;
-            border-radius: 15px;
-            overflow: hidden;
-            margin-top: 2rem;
-            box-shadow: var(--shadow);
+        .sidebar nav a {
+            display: block;
+            color: #555;
+            padding: 12px 20px;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            font-weight: 400;
+            font-size: 0.9rem;
             transition: all 0.3s ease;
+            border-left: 4px solid transparent;
         }
 
-        .map-container:hover {
-            transform: scale(1.02);
-            box-shadow: var(--shadow-hover);
-        }
-
-        /* Tables */
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 2rem;
-            background: var(--white);
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            animation: fadeIn 0.8s ease-out;
-        }
-
-        .data-table th {
-            background: var(--gradient-primary);
-            color: var(--white);
-            padding: 1.5rem 1rem;
-            text-align: left;
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-
-        .data-table td {
-            padding: 1.5rem 1rem;
-            border-bottom: 1px solid #eee;
-            transition: all 0.3s ease;
-        }
-
-        .data-table tr:hover {
-            background: linear-gradient(90deg, #f8f9fa, #e9ecef);
-            transform: scale(1.01);
-        }
-
-        .data-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        /* Developer Logos Section */
-        .developer-logos {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-            padding: 3rem;
-            background: var(--gradient-card);
-            border-radius: 20px;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .developer-logo {
-            background: linear-gradient(145deg, #ffffff, #f0f0f0);
-            border-radius: 15px;
-            padding: 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
+        .sidebar nav a:hover {
+            background-color: #eaf4fc;
             color: var(--primary-color);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
         }
 
-        .developer-logo::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(52, 152, 219, 0.1), transparent);
-            transition: left 0.6s ease;
+        .sidebar nav a.active {
+            background-color: #e0eefa;
+            color: var(--primary-color);
+            font-weight: 600;
+            border-left: 4px solid var(--primary-color);
         }
 
-        .developer-logo:hover {
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            color: var(--accent-color);
+        /* --- Main Content --- */
+        .main-content {
+            margin-left: 280px;
+            width: calc(100% - 280px);
+            padding: 2rem 3rem;
         }
 
-        .developer-logo:hover::before {
-            left: 100%;
+        .content-section {
+            background: var(--card-bg);
+            margin-bottom: 2.5rem;
+            padding: 2.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
         }
-
-        /* Section Headers */
+        
         .section-header {
-            text-align: center;
-            margin-bottom: 3rem;
-            animation: fadeIn 0.8s ease-out;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--yellow-accent);
+            padding-bottom: 1rem;
         }
 
-        .section-header h2 {
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
-            color: var(--primary-color);
-            margin-bottom: 1rem;
+        .section-header .day-badge {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
             font-weight: 600;
+        }
+
+        .section-header h1 {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
         }
 
         .section-header p {
             font-size: 1.1rem;
             color: #666;
-            max-width: 600px;
-            margin: 0 auto;
+            margin-top: 0.5rem;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        h3 {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+        
+        ul, ol {
+            padding-left: 20px;
+            margin-bottom: 1rem;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .nav-toggle {
+        li {
+            margin-bottom: 0.75rem;
+        }
+
+        strong {
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .card {
+            background-color: #fdfdfd;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+             transform: translateY(-5px);
+             box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        /* --- Table Styling --- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        thead {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* --- Map Styling --- */
+        .map-container {
+            margin-top: 2rem;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 450px;
+            border: 0;
+        }
+        
+        /* --- Responsive Design --- */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1001;
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                z-index: 1000;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+                box-shadow: 5px 0 15px rgba(0,0,0,0.2);
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 2rem 1.5rem;
+            }
+            .menu-toggle {
                 display: block;
             }
-
-            .nav-menu {
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: var(--primary-color);
-                flex-direction: column;
-                gap: 0;
-                max-height: 0;
-                overflow: hidden;
-                transition: max-height 0.3s ease;
-                box-shadow: var(--shadow);
-            }
-
-            .nav-menu.active {
-                max-height: 300px;
-            }
-
-            .nav-menu a {
-                padding: 1rem 2rem;
-                border-bottom: 1px solid rgba(255,255,255,0.1);
-            }
-
-            .header-content {
-                padding: 0 1rem;
-            }
-
-            .main-content {
-                padding: 1rem;
-                margin-top: 80px;
-            }
-
-            .hero {
-                padding: 2rem 1rem;
-            }
-
-            .days-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .day-detail {
-                padding: 2rem 1rem;
-            }
-
-            .map-section {
-                padding: 2rem 1rem;
-            }
-
-            .map-container {
-                height: 300px;
-            }
-
-            .developer-logos {
-                grid-template-columns: 1fr;
-                padding: 2rem 1rem;
-            }
-
-            .data-table {
-                font-size: 0.9rem;
-            }
-
-            .data-table th,
-            .data-table td {
-                padding: 1rem 0.5rem;
-            }
-
-            .company-info {
-                display: none;
-            }
-
-            .logo {
-                width: 40px;
-                height: 40px;
-                font-size: 1rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .days-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .day-card {
+            .content-section {
                 padding: 1.5rem;
             }
-
-            .hero {
-                padding: 2rem 1rem;
-            }
-
-            .data-table {
-                display: block;
-                overflow-x: auto;
-                white-space: nowrap;
+             .section-header h1 {
+                font-size: 2rem;
             }
         }
-
-        /* Print Styles */
-        @media print {
-            .header, .back-button, .nav-menu, .nav-toggle {
-                display: none !important;
-            }
-
+        
+         @media (max-width: 576px) {
             .main-content {
-                margin-top: 0;
+                padding: 1rem;
             }
-
-            .day-card, .map-section, .developer-logos {
-                break-inside: avoid;
+            .section-header h1 {
+                font-size: 1.8rem;
             }
-        }
-
-        /* Accessibility */
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
+            h2 {
+                font-size: 1.5rem;
+            }
+            .card-container {
+                grid-template-columns: 1fr;
             }
         }
 
-        /* Focus styles for accessibility */
-        button:focus-visible,
-        a:focus-visible {
-            outline: 2px solid var(--accent-color);
-            outline-offset: 2px;
-        }
-
-        /* Loading animation */
-        .loading {
-            opacity: 0;
-            animation: fadeIn 0.8s ease-out 0.2s forwards;
-        }
     </style>
 </head>
 <body>
-    <header class="header" id="header">
-        <div class="header-content">
-            <div class="logo-section">
-                <div class="logo animate-float">DB</div>
-                <div class="company-info">
-                    <div class="company-name">DigitalBuzz</div>
-                    <div class="tagline">Real Estate Marketing Agency</div>
-                </div>
-            </div>
-            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
-                ☰
-            </button>
-            <nav>
-                <ul class="nav-menu" id="navMenu">
-                    <li><a href="#overview">Overview</a></li>
-                    <li><a href="#schedule">12-Day Schedule</a></li>
-                    <li><a href="#map">Bangalore Map</a></li>
-                    <li><a href="#developers">Developers</a></li>
-                </ul>
-            </nav>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAoAAAAFeCAYAAACLP31bAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAAASAAAAEgARslrPgAAADlJREFUeNrtwTEBAAAAwqD1T20ND6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4GEAQPsAARw0aAUAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjUtMDktMjBUMDc6NTI6MTIrMDA6MDBF+I8yAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDI1LTA5LTIwVDA3OjUyOjEyKzAwOjAwlR/ZKgAAACh0RVh0aWNjOmNvcHlyaWdodABDb3B5cmlnaHQgKGMpIDE5OTkgQWRvYmUgU3lzdGVtcyBJbmNvcnBvcmF0ZWT03a4AAAAmdEVYdGljYzpkZXNjcmlwdGlvbgBBZG9iZSBSR0IgKDE5OTgp293dJgAAABR0RVh0aWNjOm1hbnVmYWN0dXJlcgBJQ0MgcHJvZmlsZQ+jb20AAAAVdEVYdGljYzptb2RlbABSR0IgKDE5OTgpZmVkZwAAAABJRU5ErkJggg==" alt="DigitalBuzz Logo">
+            <h2>RM Training Program</h2>
         </div>
-    </header>
+        <nav>
+            <ul id="nav-links">
+                <li><a href="#day1" class="active">Day 1: Induction</a></li>
+                <li><a href="#day2">Day 2: Bangalore Market</a></li>
+                <li><a href="#day3">Day 3: Sales Pitch & Calling</a></li>
+                <li><a href="#day4-5">Day 4 & 5: F2F Training</a></li>
+                <li><a href="#day6">Day 6: Mock Sessions</a></li>
+                <li><a href="#day7-9">Day 7-9: On-Field Meetings</a></li>
+                <li><a href="#day10">Day 10: First Meeting</a></li>
+                <li><a href="#day11">Day 11: Independent Meetings</a></li>
+                <li><a href="#day12">Day 12: Review Meeting</a></li>
+            </ul>
+        </nav>
+    </aside>
 
-    <main class="main-content loading">
-        <section id="overview" class="hero">
-            <div class="hero-content">
-                <h1>New Relationship Manager<br>Training Module</h1>
-                <p>12-Day Comprehensive Onboarding Program for Sales RM</p>
-                <span class="date-badge">
-                    📅 September 2025
-                </span>
-            </div>
-        </section>
+    <button class="menu-toggle" id="menu-toggle" aria-label="Open Menu">&#9776;</button>
 
-        <section id="schedule">
+    <main class="main-content">
+
+        <section id="day1" class="content-section fade-in">
             <div class="section-header">
-                <h2>12-Day Training Schedule</h2>
-                <p>Click on any day card to view detailed training content and objectives</p>
+                <span class="day-badge">Day 1</span>
+                <h1>Company Induction & Foundation</h1>
+                <p>Understanding DigitalBuzz's vision, your role, and basic rules of engagement.</p>
             </div>
-            <div class="days-grid" id="daysGrid">
+
+            <div class="card-container">
+                <div class="card">
+                    <h3 class="card-title">Morning Session (10:00 AM - 1:00 PM)</h3>
+                    <h4>HR & Corporate Induction</h4>
+                    <ul>
+                        <li><strong>Welcome:</strong> Introduction by HR Manager, Ankita, and Senior HR, Ragini.</li>
+                        <li><strong>Company Policies:</strong> Walkthrough of the company handbook, leave policy, code of conduct, and administrative procedures.</li>
+                        <li><strong>Office Tour:</strong> Familiarization with the office layout and facilities.</li>
+                        <li><strong>System Setup:</strong> IT orientation for email, CRM, and other internal software.</li>
+                    </ul>
                 </div>
+                <div class="card">
+                    <h3 class="card-title">Afternoon Session (2:00 PM - 5:00 PM)</h3>
+                    <h4>Business & Sales Induction</h4>
+                    <ul>
+                        <li><strong>Introduction to DigitalBuzz:</strong> Who we are and our core business.</li>
+                        <li><strong>Meet the Departments:</strong> Get to know the Sales, Operations, Accounts, HR, Admin, and Graphics teams.</li>
+                        <li><strong>Company Process:</strong> Understanding your role as the bridge between DigitalBuzz and the client.</li>
+                        <li><strong>Career Path:</strong> Learn about your growth opportunities within the company.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>Rules & Regulations</h2>
+            <ul>
+                <li><strong>Job Timings:</strong> 10:00 AM to 7:00 PM.</li>
+                <li><strong>Breaks:</strong> 30-minute lunch break, plus two 15-minute tea breaks.</li>
+                <li><strong>Dress Code:</strong> Business Formals.</li>
+            </ul>
         </section>
 
-        <div id="dayDetail" class="day-detail">
-            <button class="back-button" onclick="showOverview()">← Back to Overview</button>
-            <div id="dayDetailContent"></div>
-        </div>
+        <section id="day2" class="content-section fade-in">
+            <div class="section-header">
+                <span class="day-badge">Day 2</span>
+                <h1>Mastering the Bangalore Real Estate Market</h1>
+                <p>Develop a deep understanding of the Bangalore real estate landscape.</p>
+            </div>
 
-        <section id="map" class="map-section">
-            <h2>🗺️ Bangalore Real Estate Market Map</h2>
-            <p>Understanding key locations and connectivity for efficient meeting planning</p>
+            <h2>Segment 1: Bangalore Market & Connectivity Map</h2>
+            <p>Understanding the city is crucial for efficient meeting planning. As an RM with a bike, you can navigate traffic effectively by knowing the key arterial roads and metro lines.</p>
+            
             <div class="map-container">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d248849.56658586605!2d77.49085429358436!2d12.954179926665544!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c9b44e6d%3A0xf8dfc3e8517e4fe0!2sBengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1234567890"
-                    width="100%"
-                    height="100%"
-                    style="border:0;"
-                    allowfullscreen=""
-                    loading="lazy"
-                    title="Bangalore Map">
-                </iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d248757.9421876815!2d77.46612543444758!3d12.952993351998335!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c9b44e6d%3A0xf8dfc3e8517e4fe0!2sBengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1726823907722!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
-        </section>
-
-        <section id="developers">
-            <div class="section-header">
-                <h2>🏢 Key Developer Partners</h2>
-                <p>Our trusted real estate development partners in Bangalore</p>
-            </div>
-            <div class="developer-logos">
-                <div class="developer-logo animate-fade-in stagger-1">Prestige Group</div>
-                <div class="developer-logo animate-fade-in stagger-2">Sobha Ltd.</div>
-                <div class="developer-logo animate-fade-in stagger-3">Brigade Group</div>
-                <div class="developer-logo animate-fade-in stagger-4">Godrej Properties</div>
-            </div>
-        </section>
-
-        <section>
-            <div class="section-header">
-                <h2>📊 A-Grade Developers & Their Projects (2025)</h2>
-            </div>
-            <table class="data-table">
+            
+            <h2>Segment 2: A-Grade Developers & Their Projects</h2>
+            <table>
                 <thead>
                     <tr>
                         <th>Developer</th>
-                        <th>New Launch Project</th>
+                        <th>New Launch Project (2025)</th>
                         <th>Location</th>
-                        <th>USP</th>
+                        <th>Unique Selling Proposition (USP)</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><strong>Prestige Group</strong></td>
+                        <td>Prestige Group</td>
                         <td>Prestige Park Grove</td>
                         <td>Whitefield</td>
-                        <td>One of the largest residential developments with township experience</td>
+                        <td>One of the largest residential developments, offering a township experience.</td>
                     </tr>
                     <tr>
-                        <td><strong>Sobha Ltd.</strong></td>
+                        <td>Sobha Ltd.</td>
                         <td>Sobha Neopolis</td>
                         <td>Panathur Road</td>
-                        <td>Greek architecture-themed luxury apartments</td>
+                        <td>Greek architecture-themed luxury apartments, focusing on unique design.</td>
                     </tr>
                     <tr>
-                        <td><strong>Brigade Group</strong></td>
+                        <td>Brigade Group</td>
                         <td>Brigade Sanctuary</td>
                         <td>Sarjapur Road</td>
-                        <td>Green living with expansive open spaces</td>
+                        <td>Focuses on green living and expansive open spaces.</td>
                     </tr>
                     <tr>
-                        <td><strong>Godrej Properties</strong></td>
+                        <td>Godrej Properties</td>
                         <td>Godrej Athena</td>
                         <td>Indiranagar</td>
-                        <td>Ultra-luxury in prime central location</td>
+                        <td>Ultra-luxury project in a prime, central location with premium amenities.</td>
                     </tr>
                 </tbody>
             </table>
+            
+            <h2>Segment 3: The Channel Partner (CP) Profile</h2>
+            <ul>
+                <li><strong>Who they are:</strong> A CP is a builder's official marketing partner who sells properties for a brokerage fee. They are our primary client.</li>
+                <li><strong>Their Goal:</strong> To get a consistent flow of high-quality leads to convert into site visits and sales.</li>
+                <li><strong>The POC:</strong> The owner is your main Point of Contact. Approach them as a consultant, not a salesperson.</li>
+            </ul>
         </section>
+
+        <section id="day3" class="content-section fade-in">
+            <div class="section-header">
+                <span class="day-badge">Day 3</span>
+                <h1>Sales Pitch & Calling</h1>
+                <p>Learn the pitch, practice scripts, and make live calls.</p>
+            </div>
+            <div class="card-container">
+                <div class="card">
+                    <h3 class="card-title">Training Focus</h3>
+                    <p>Learn the DigitalBuzz cold calling pitch and scripts. Focus on the "Straight Line Method" to establish authority in the first 30 seconds.</p>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Real Calling</h3>
+                    <p>Supervised live calls to potential clients to practice the pitch and build confidence under the guidance of senior team members.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="day4-5" class="content-section fade-in">
+            <div class="section-header">
+                <span class="day-badge">Day 4 & 5</span>
+                <h1>F2F Meeting Module Training</h1>
+                <p>A detailed walkthrough of the face-to-face (F2F) meeting process.</p>
+            </div>
+            <p>This includes pre-meeting research, structuring the conversation from greeting to strategy presentation, and discussing company policies. You'll learn how to present our value proposition effectively and confidently.</p>
+        </section>
+
+        <section id="day6" class="content-section fade-in">
+            <div class="section-header">
+                <span class="day-badge">Day 6</span>
+                <h1>Mock Sessions</h1>
+                <p>Practice F2F meetings in a controlled environment.</p>
+            </div>
+            <p>Conduct mock F2F meetings with trainers and senior RMs playing the role of the client. Receive constructive feedback on your presentation, communication, and objection handling skills.</p>
+        </section>
+
+        <section id="day7-9" class="content-section fade-in">
+            <div class="section-header">
+                <span class="day-badge">Day 7, 8, & 9</span>
+                <h1>On-Field Meetings & Objection Handling</h1>
+                <p>Gain real-world experience by shadowing senior team members.</p>
+            </div>
+            <p>Accompany senior RMs on actual client meetings. Observe how they build rapport, present solutions, and handle real-world objections. You will participate in post-meeting debriefs to analyze the interactions.</p>
+        </section>
+
+        <section id="day10" class="content-section fade-in">
+            <div class="section-header">
+                <span class="day-badge">Day 10</span>
+                <h1>Your First Meeting (Shadowed)</h1>
+                <p>Lead your first client meeting with support.</p>
+            </div>
+            <p>You will lead your own client meeting from start to finish. A senior RM or Team Lead will accompany you to observe and provide support if needed. This is your chance to apply what you've learned.</p>
+        </section>
+        
+        <section id="day11" class="content-section fade-in">
+            <div class="section-header">
+                <span class="day-badge">Day 11</span>
+                <h1>Independent Meetings</h1>
+                <p>Conduct client meetings on your own.</p>
+            </div>
+            <p>You will conduct your own client meetings independently. The focus is on applying all the training from the previous days in a live environment and taking full ownership of the client interaction.</p>
+        </section>
+
+        <section id="day12" class="content-section fade-in">
+            <div class="section-header">
+                <span class="day-badge">Day 12</span>
+                <h1>Review Meeting</h1>
+                <p>A comprehensive review of your training performance and setting future goals.</p>
+            </div>
+            <h3>Agenda</h3>
+            <ul>
+                <li>Discuss feedback from mock calls and on-field meetings.</li>
+                <li>Review your understanding of products and processes.</li>
+                <li>Address any remaining questions or challenges.</li>
+                <li><strong>Set clear performance goals for your first 30 days as a qualified Relationship Manager.</strong></li>
+            </ul>
+        </section>
+        
     </main>
-
+    
     <script>
-        // Training program data
-        const trainingDays = [
-            {
-                day: 1,
-                title: "Company Induction & Foundation",
-                objective: "Understand DigitalBuzz's vision, your role, and basic rules of engagement",
-                content: `
-                    <h2>Day 1: Company Induction & Foundation</h2>
-                    <p><strong>Objective:</strong> To understand DigitalBuzz's vision, your role within the company structure, and the basic rules of engagement.</p>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.content-section');
+            const navLinks = document.querySelectorAll('.sidebar nav a');
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
 
-                    <div class="session-timeline">
-                        <div class="session-block">
-                            <div class="session-time">⏰ 10:00 AM - 1:00 PM</div>
-                            <div class="session-title">HR & Corporate Induction</div>
-                            <ul>
-                                <li><strong>Welcome:</strong> Introduction by HR Manager, Ankita, and Senior HR, Ragini</li>
-                                <li><strong>Company Policies:</strong> Walkthrough of company handbook, leave policy, code of conduct</li>
-                                <li><strong>Office Tour:</strong> Familiarization with office layout and facilities</li>
-                                <li><strong>System Setup:</strong> IT orientation for email, CRM, and internal software</li>
-                            </ul>
-                        </div>
+            // --- Mobile Menu Toggle ---
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('open');
+            });
+            
+            // --- Close sidebar when a link is clicked on mobile ---
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth <= 992) {
+                        sidebar.classList.remove('open');
+                    }
+                });
+            });
 
-                        <div class="session-block">
-                            <div class="session-time">⏰ 2:00 PM - 5:00 PM</div>
-                            <div class="session-title">Business & Sales Induction</div>
-                            <h4>🏢 Introduction to DigitalBuzz:</h4>
-                            <p><strong>Who We Are:</strong> DigitalBuzz is a premier Real Estate Lead Generation agency. Our mission is to empower real estate professionals with high-quality, targeted leads through innovative digital marketing strategies.</p>
-                            <p><strong>Our Core Business:</strong> We specialize in generating high-intent leads for real estate Channel Partners (CPs), Sole Sellers, and Developers through targeted campaigns on Meta (Facebook, Instagram) and Google.</p>
+            // --- Intersection Observer for fade-in animations & active nav link ---
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.4 
+            };
 
-                            <h4>👥 Meet the Departments:</h4>
-                            <ul>
-                                <li><strong>Sales:</strong> Samir Kumar (Sales Head), Jimmy (Team Lead)</li>
-                                <li><strong>Operations:</strong> Gautam (Operation Head), Bhavesh & Vinayak (Executives)</li>
-                                <li><strong>Accounts:</strong> Nupur, Anjali (Sr. Accounts Exe), Yogesh (Sr. Accounts Exe), Pooja</li>
-                                <li><strong>HR:</strong> Ankita (HR Manager), Ragini (Sr. HR)</li>
-                                <li><strong>Admin:</strong> Godhan</li>
-                                <li><strong>Graphics:</strong> Gautham</li>
-                            </ul>
-
-                            <h4>⚙️ Company Process & Workflow:</h4>
-                            <ul>
-                                <li>As an RM, you are the bridge between DigitalBuzz and the client</li>
-                                <li>You will coordinate with Operations Team and Graphics Team</li>
-                                <li>The Accounts Team shares reports and invoices with clients</li>
-                            </ul>
-
-                            <h4>📋 Rules & Regulations:</h4>
-                            <ul>
-                                <li><strong>Job Timings:</strong> 10:00 AM to 7:00 PM</li>
-                                <li><strong>Breaks:</strong> 30-minute lunch break, plus two 15-minute tea breaks</li>
-                                <li><strong>Dress Code:</strong> Business Formals</li>
-                            </ul>
-
-                            <h4>🚀 Your Career Path:</h4>
-                            <p style="background: linear-gradient(90deg, #3498db, #e74c3c); color: white; padding: 1rem; border-radius: 10px; font-weight: bold;">
-                                Sales Executive → RM → Senior RM → Team Lead → Branch Manager → Cluster Manager → Sales Head
-                            </p>
-                        </div>
-                    </div>
-                `
-            },
-            {
-                day: 2,
-                title: "Mastering the Bangalore Real Estate Market",
-                objective: "Develop deep understanding of Bangalore real estate landscape",
-                content: `
-                    <h2>Day 2: Mastering the Bangalore Real Estate Market</h2>
-                    <p><strong>Objective:</strong> To develop a deep understanding of the Bangalore real estate landscape, including key locations, major developers, and client profiles.</p>
-
-                    <h3>🗺️ Segment 1: Bangalore Market & Connectivity Map</h3>
-                    <p>Understanding the city is crucial for efficient meeting planning. As an RM with a bike, you can navigate traffic effectively by knowing the key arterial roads and metro lines.</p>
-
-                    <div class="session-timeline">
-                        <div class="session-block">
-                            <h4>🧭 North Bangalore (Hebbal, Yelahanka, Devanahalli)</h4>
-                            <ul>
-                                <li><strong>Connectivity:</strong> Bellary Road (NH 44), upcoming Metro Blue Line</li>
-                                <li><strong>New Launch (2025):</strong> Prestige Somerville (near Old Airport Road)</li>
-                            </ul>
-                        </div>
-
-                        <div class="session-block">
-                            <h4>🌅 East Bangalore (Whitefield, Sarjapur Road, Marathahalli)</h4>
-                            <ul>
-                                <li><strong>Connectivity:</strong> Outer Ring Road (ORR), Purple Metro Line. The city's IT corridor</li>
-                                <li><strong>New Launch (2025):</strong> Godrej Woodscapes (Budigere Cross)</li>
-                            </ul>
-                        </div>
-
-                        <div class="session-block">
-                            <h4>🌇 South Bangalore (Kanakapura Road, Bannerghatta Road, Electronic City)</h4>
-                            <ul>
-                                <li><strong>Connectivity:</strong> Green Metro Line, NICE Ring Road</li>
-                                <li><strong>New Launch (2025):</strong> Brigade Sanctuary (off Sarjapur Road)</li>
-                            </ul>
-                        </div>
-
-                        <div class="session-block">
-                            <h4>🌆 West Bangalore (Rajajinagar, Yeshwanthpur, Tumkur Road)</h4>
-                            <ul>
-                                <li><strong>Connectivity:</strong> Green and Purple Metro Lines</li>
-                                <li><strong>New Launch (2025):</strong> Sobha Neopolis (near Panathur, Varthur)</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <h3>🤝 Segment 3: The Channel Partner (CP) Profile</h3>
-                    <div class="session-block">
-                        <ul>
-                            <li><strong>Who they are:</strong> A CP is a builder's official marketing partner who sells properties for a brokerage fee. They are our primary client.</li>
-                            <li><strong>Their Goal:</strong> To get a consistent flow of high-quality leads to convert into site visits and sales.</li>
-                            <li><strong>Types of CPs:</strong> Individual, Small Firm (4-5 people), and Big Firm (10+ employees)</li>
-                            <li><strong>The POC:</strong> The owner is your main Point of Contact. They are sophisticated and business-savvy. Approach them as a consultant, not a salesperson.</li>
-                        </ul>
-                    </div>
-                `
-            },
-            {
-                day: 3,
-                title: "Sales Pitch & Calling",
-                objective: "Master the DigitalBuzz cold calling pitch and scripts",
-                content: `
-                    <h2>Day 3: Sales Pitch & Calling</h2>
-                    <div class="session-timeline">
-                        <div class="session-block">
-                            <div class="session-title">📞 Training Session</div>
-                            <p><strong>Focus:</strong> Learn the DigitalBuzz cold calling pitch and scripts. Master the "Straight Line Method" to establish authority in the first 30 seconds.</p>
-                        </div>
-                        <div class="session-block">
-                            <div class="session-title">🎯 Real Calling Practice</div>
-                            <p><strong>Activity:</strong> Supervised live calls to potential clients to practice the pitch and build confidence.</p>
-                        </div>
-                    </div>
-                `
-            },
-            {
-                day: 4,
-                title: "F2F Meeting Module Training (Day 1)",
-                objective: "Learn face-to-face meeting process and structure",
-                content: `
-                    <h2>Day 4 & 5: F2F Meeting Module Training</h2>
-                    <div class="session-block">
-                        <div class="session-title">🤝 Face-to-Face Meeting Mastery</div>
-                        <p><strong>Training:</strong> A detailed walkthrough of the face-to-face (F2F) meeting process. This includes pre-meeting research, structuring the conversation from greeting to strategy presentation, and discussing company policies.</p>
-                    </div>
-                `
-            },
-            {
-                day: 5,
-                title: "F2F Meeting Module Training (Day 2)",
-                objective: "Continue mastering the meeting process",
-                content: `
-                    <h2>Day 4 & 5: F2F Meeting Module Training (Continued)</h2>
-                    <div class="session-block">
-                        <div class="session-title">🎭 Advanced Scenarios</div>
-                        <p>Continuation of F2F meeting training with advanced scenarios and role-playing exercises.</p>
-                    </div>
-                `
-            },
-            {
-                day: 6,
-                title: "Mock Sessions",
-                objective: "Practice meetings with feedback",
-                content: `
-                    <h2>Day 6: Mock Sessions</h2>
-                    <div class="session-block">
-                        <div class="session-title">🎬 Mock Meeting Practice</div>
-                        <p><strong>Activity:</strong> Conduct mock F2F meetings with trainers and senior RMs playing the role of the client. Receive constructive feedback on your presentation, communication, and objection handling skills.</p>
-                    </div>
-                `
-            },
-            {
-                day: 7,
-                title: "On-Field Meetings & Objection Handling (Day 1)",
-                objective: "Shadow senior RMs in real client meetings",
-                content: `
-                    <h2>Day 7, 8, & 9: On-Field Meetings & Objection Handling</h2>
-                    <div class="session-block">
-                        <div class="session-title">👥 Real-World Experience</div>
-                        <p><strong>Activity:</strong> Accompany senior RMs on actual client meetings. Observe how they build rapport, present solutions, and handle real-world objections. Participate in post-meeting debriefs.</p>
-                    </div>
-                `
-            },
-            {
-                day: 8,
-                title: "On-Field Meetings & Objection Handling (Day 2)",
-                objective: "Continue shadowing and learning",
-                content: `
-                    <h2>Day 7, 8, & 9: On-Field Meetings & Objection Handling (Continued)</h2>
-                    <div class="session-block">
-                        <div class="session-title">📚 Continued Learning</div>
-                        <p>Continue observing and learning from senior RMs in live client situations.</p>
-                    </div>
-                `
-            },
-            {
-                day: 9,
-                title: "On-Field Meetings & Objection Handling (Day 3)",
-                objective: "Final day of shadowing experience",
-                content: `
-                    <h2>Day 7, 8, & 9: On-Field Meetings & Objection Handling (Final Day)</h2>
-                    <div class="session-block">
-                        <div class="session-title">🎯 Advanced Objection Handling</div>
-                        <p>Final day of shadowing with focus on complex objection handling scenarios.</p>
-                    </div>
-                `
-            },
-            {
-                day: 10,
-                title: "Your First Meeting (Shadowed)",
-                objective: "Lead your first client meeting with support",
-                content: `
-                    <h2>Day 10: Your First Meeting (Shadowed)</h2>
-                    <div class="session-block">
-                        <div class="session-title">🌟 Your Debut</div>
-                        <p><strong>Activity:</strong> You will lead your own client meeting from start to finish. A senior RM or Team Lead will accompany you to observe and provide support if needed.</p>
-                    </div>
-                `
-            },
-            {
-                day: 11,
-                title: "Independent Meetings",
-                objective: "Conduct meetings independently",
-                content: `
-                    <h2>Day 11: Independent Meetings</h2>
-                    <div class="session-block">
-                        <div class="session-title">🚀 Flying Solo</div>
-                        <p><strong>Activity:</strong> You will conduct your own client meetings independently. The focus is on applying all the training from the previous days in a live environment.</p>
-                    </div>
-                `
-            },
-            {
-                day: 12,
-                title: "Review Meeting",
-                objective: "Comprehensive performance review and goal setting",
-                content: `
-                    <h2>Day 12: Review Meeting</h2>
-                    <p><strong>Objective:</strong> A comprehensive review of your performance with your Team Lead and the Sales Head.</p>
-
-                    <div class="session-block">
-                        <div class="session-title">📋 Final Assessment</div>
-                        <h3>Agenda:</h3>
-                        <ul>
-                            <li>✅ Discuss feedback from mock calls and on-field meetings</li>
-                            <li>📚 Review your understanding of products and processes</li>
-                            <li>❓ Address any remaining questions or challenges</li>
-                            <li>🎯 Set clear performance goals for your first 30 days as a qualified Relationship Manager</li>
-                        </ul>
-                    </div>
-                `
-            }
-        ];
-
-        // Animation observer
-        const observeElements = () => {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.style.animationPlayState = 'running';
-                    }
-                });
-            }, { threshold: 0.1 });
+                        // Add fade-in animation
+                        entry.target.classList.add('visible');
 
-            document.querySelectorAll('.animate-fade-in').forEach(el => {
-                observer.observe(el);
-            });
-        };
-
-        // Generate day cards with staggered animations
-        function generateDayCards() {
-            const daysGrid = document.getElementById('daysGrid');
-
-            trainingDays.forEach((day, index) => {
-                const dayCard = document.createElement('div');
-                dayCard.className = `day-card animate-fade-in stagger-${Math.min(index + 1, 6)}`;
-                dayCard.onclick = () => showDayDetail(day);
-
-                dayCard.innerHTML = `
-                    <div class="day-number">Day ${day.day}</div>
-                    <h3 class="day-title">${day.title}</h3>
-                    <p class="day-objective">${day.objective}</p>
-                `;
-
-                daysGrid.appendChild(dayCard);
-            });
-        }
-
-        // Show day detail with animation
-        function showDayDetail(day) {
-            const daysGrid = document.getElementById('daysGrid');
-            const dayDetail = document.getElementById('dayDetail');
-            const dayDetailContent = document.getElementById('dayDetailContent');
-
-            daysGrid.style.display = 'none';
-            dayDetail.classList.add('active');
-            dayDetailContent.innerHTML = day.content;
-
-            // Scroll to top smoothly
-            window.scrollTo({ top: 120, behavior: 'smooth' });
-        }
-
-        // Show overview with animation
-        function showOverview() {
-            const daysGrid = document.getElementById('daysGrid');
-            const dayDetail = document.getElementById('dayDetail');
-
-            daysGrid.style.display = 'grid';
-            dayDetail.classList.remove('active');
-
-            // Re-trigger animations
-            setTimeout(() => {
-                document.querySelectorAll('.day-card').forEach((card, index) => {
-                    card.style.animation = 'none';
-                    setTimeout(() => {
-                        card.style.animation = `fadeIn 0.8s ease-out ${index * 0.1}s both`;
-                    }, 10);
-                });
-            }, 100);
-        }
-
-        // Mobile navigation toggle
-        function toggleMobileNav() {
-            const navMenu = document.getElementById('navMenu');
-            const navToggle = document.getElementById('navToggle');
-
-            navMenu.classList.toggle('active');
-            navToggle.textContent = navMenu.classList.contains('active') ? '✕' : '☰';
-        }
-
-        // Header scroll effect
-        function handleScroll() {
-            const header = document.getElementById('header');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        }
-
-        // Smooth scroll for navigation
-        function setupSmoothScroll() {
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        const headerHeight = document.querySelector('.header').offsetHeight;
-                        const targetPosition = target.offsetTop - headerHeight - 20;
-
-                        window.scrollTo({
-                            top: targetPosition,
-                            behavior: 'smooth'
+                        // Update active navigation link
+                        const id = entry.target.getAttribute('id');
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${id}`) {
+                                link.classList.add('active');
+                            }
                         });
                     }
-
-                    // Close mobile menu if open
-                    const navMenu = document.getElementById('navMenu');
-                    const navToggle = document.getElementById('navToggle');
-                    if (navMenu.classList.contains('active')) {
-                        navMenu.classList.remove('active');
-                        navToggle.textContent = '☰';
-                    }
                 });
-            });
-        }
+            }, observerOptions);
 
-        // Initialize everything
-        document.addEventListener('DOMContentLoaded', () => {
-            generateDayCards();
-            setupSmoothScroll();
-            observeElements();
-
-            // Event listeners
-            document.getElementById('navToggle').addEventListener('click', toggleMobileNav);
-            window.addEventListener('scroll', handleScroll);
-
-            // Close mobile menu when clicking outside
-            document.addEventListener('click', (e) => {
-                const navMenu = document.getElementById('navMenu');
-                const navToggle = document.getElementById('navToggle');
-                const headerContent = document.querySelector('.header-content');
-
-                if (!headerContent.contains(e.target) && navMenu.classList.contains('active')) {
-                    navMenu.classList.remove('active');
-                    navToggle.textContent = '☰';
-                }
-            });
-
-            // Add loading animation completion
-            setTimeout(() => {
-                document.querySelector('.main-content').classList.remove('loading');
-            }, 100);
-        });
-
-        // Add some interactive features
-        document.addEventListener('mousemove', (e) => {
-            const cards = document.querySelectorAll('.day-card');
-            cards.forEach(card => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-
-                if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-                    const rotateX = (y - centerY) / 10;
-                    const rotateY = (centerX - x) / 10;
-
-                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px) scale(1.02)`;
-                } else {
-                    card.style.transform = '';
-                }
+            sections.forEach(section => {
+                observer.observe(section);
             });
         });
     </script>
+
 </body>
 </html>
