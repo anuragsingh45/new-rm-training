@@ -1,22 +1,760 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>RM-Operations Task Coordination</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigitalBuzz - New RM Training Module</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #e74c3c;
+            --accent-color: #3498db;
+            --text-color: #333;
+            --bg-light: #ecf0f1;
+            --white: #ffffff;
+            --shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-light);
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            color: var(--white);
+            padding: 2rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background-color: var(--white);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .company-name {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .tagline {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Navigation */
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            color: var(--white);
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .nav-menu a:hover {
+            opacity: 0.8;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 120px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .date-badge {
+            display: inline-block;
+            background: var(--secondary-color);
+            color: var(--white);
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-weight: bold;
+        }
+
+        /* Day Cards Grid */
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .day-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .day-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--accent-color);
+            transition: width 0.3s;
+        }
+
+        .day-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .day-card:hover::before {
+            width: 100%;
+            opacity: 0.1;
+        }
+
+        .day-number {
+            background: var(--accent-color);
+            color: var(--white);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .day-title {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .day-objective {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Day Detail Section */
+        .day-detail {
+            display: none;
+            background: var(--white);
+            border-radius: 15px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow);
+            animation: fadeIn 0.5s;
+        }
+
+        .day-detail.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .back-button {
+            background: var(--accent-color);
+            color: var(--white);
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 2rem;
+            transition: background 0.3s;
+        }
+
+        .back-button:hover {
+            background: #2980b9;
+        }
+
+        /* Map Section */
+        .map-section {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow);
+        }
+
+        .map-container {
+            width: 100%;
+            height: 500px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 2rem;
+        }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .data-table th {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 1rem;
+            text-align: left;
+        }
+
+        .data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .data-table tr:hover {
+            background: #f5f5f5;
+        }
+
+        /* Developer Logos Section */
+        .developer-logos {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 3rem 0;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .developer-logo {
+            width: 150px;
+            height: 80px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #666;
+            transition: transform 0.3s;
+        }
+
+        .developer-logo:hover {
+            transform: scale(1.05);
+        }
+
+        /* Session Timeline */
+        .session-timeline {
+            margin: 2rem 0;
+        }
+
+        .session-block {
+            background: #f8f9fa;
+            border-left: 4px solid var(--accent-color);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .session-time {
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .session-title {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-menu {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .days-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .developer-logos {
+                flex-direction: column;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .header, .back-button, .nav-menu {
+                display: none;
+            }
+
+            .main-content {
+                margin-top: 0;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div id="app" class="p-6">
-    <div class="bg-white p-4 rounded shadow">
-      <h1 class="text-2xl font-bold mb-4">RM-Operations Task Coordination</h1>
-      <p class="text-gray-700">This is a static HTML version of your React task coordination tool.</p>
-      <p class="text-sm text-gray-500 mt-2">Note: This version does not include interactive functionality like in the React version.</p>
-    </div>
-    <footer class="mt-12 bg-white rounded-lg shadow-sm p-6 text-center">
-      <p class="text-gray-600 text-sm">© 2025 DigitalBuzz. All rights reserved. ~Build by Anurag</p>
-    </footer>
-  </div>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo">DB</div>
+                <div>
+                    <div class="company-name">DigitalBuzz</div>
+                    <div class="tagline">Real Estate Marketing Agency</div>
+                </div>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#overview">Overview</a></li>
+                    <li><a href="#schedule">12-Day Schedule</a></li>
+                    <li><a href="#map">Bangalore Map</a></li>
+                    <li><a href="#developers">Developers</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section id="overview" class="hero">
+            <h1>New Relationship Manager Training Module</h1>
+            <p>12-Day Comprehensive Onboarding Program for Sales RM</p>
+            <span class="date-badge">September 2025</span>
+        </section>
+
+        <!-- Days Overview Grid -->
+        <section id="schedule">
+            <div class="days-grid" id="daysGrid">
+                <!-- Day cards will be dynamically generated -->
+            </div>
+        </section>
+
+        <!-- Day Detail View -->
+        <div id="dayDetail" class="day-detail">
+            <button class="back-button" onclick="showOverview()">← Back to Overview</button>
+            <div id="dayDetailContent"></div>
+        </div>
+
+        <!-- Bangalore Map Section -->
+        <section id="map" class="map-section">
+            <h2>Bangalore Real Estate Market Map</h2>
+            <p>Understanding key locations and connectivity for efficient meeting planning</p>
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d248849.56658586605!2d77.49085429358436!2d12.954179926665544!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c9b44e6d%3A0xf8dfc3e8517e4fe0!2sBengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1234567890"
+                    width="100%" 
+                    height="100%" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                </iframe>
+            </div>
+        </section>
+
+        <!-- Developers Section -->
+        <section id="developers" class="developer-logos">
+            <div class="developer-logo">Prestige Group</div>
+            <div class="developer-logo">Sobha Ltd.</div>
+            <div class="developer-logo">Brigade Group</div>
+            <div class="developer-logo">Godrej Properties</div>
+        </section>
+
+        <!-- A-Grade Developers Table -->
+        <section>
+            <h2>A-Grade Developers & Their Projects (2025)</h2>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Developer</th>
+                        <th>New Launch Project</th>
+                        <th>Location</th>
+                        <th>USP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Prestige Group</td>
+                        <td>Prestige Park Grove</td>
+                        <td>Whitefield</td>
+                        <td>One of the largest residential developments with township experience</td>
+                    </tr>
+                    <tr>
+                        <td>Sobha Ltd.</td>
+                        <td>Sobha Neopolis</td>
+                        <td>Panathur Road</td>
+                        <td>Greek architecture-themed luxury apartments</td>
+                    </tr>
+                    <tr>
+                        <td>Brigade Group</td>
+                        <td>Brigade Sanctuary</td>
+                        <td>Sarjapur Road</td>
+                        <td>Green living with expansive open spaces</td>
+                    </tr>
+                    <tr>
+                        <td>Godrej Properties</td>
+                        <td>Godrej Athena</td>
+                        <td>Indiranagar</td>
+                        <td>Ultra-luxury in prime central location</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script>
+        // Training program data
+        const trainingDays = [
+            {
+                day: 1,
+                title: "Company Induction & Foundation",
+                objective: "Understand DigitalBuzz's vision, your role, and basic rules of engagement",
+                content: `
+                    <h2>Day 1: Company Induction & Foundation</h2>
+                    <p><strong>Objective:</strong> To understand DigitalBuzz's vision, your role within the company structure, and the basic rules of engagement.</p>
+                    
+                    <div class="session-timeline">
+                        <div class="session-block">
+                            <div class="session-time">10:00 AM - 1:00 PM</div>
+                            <div class="session-title">HR & Corporate Induction</div>
+                            <ul>
+                                <li><strong>Welcome:</strong> Introduction by HR Manager, Ankita, and Senior HR, Ragini</li>
+                                <li><strong>Company Policies:</strong> Walkthrough of company handbook, leave policy, code of conduct</li>
+                                <li><strong>Office Tour:</strong> Familiarization with office layout and facilities</li>
+                                <li><strong>System Setup:</strong> IT orientation for email, CRM, and internal software</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="session-block">
+                            <div class="session-time">2:00 PM - 5:00 PM</div>
+                            <div class="session-title">Business & Sales Induction</div>
+                            <h4>Introduction to DigitalBuzz:</h4>
+                            <p><strong>Who We Are:</strong> DigitalBuzz is a premier Real Estate Lead Generation agency. Our mission is to empower real estate professionals with high-quality, targeted leads through innovative digital marketing strategies.</p>
+                            <p><strong>Our Core Business:</strong> We specialize in generating high-intent leads for real estate Channel Partners (CPs), Sole Sellers, and Developers through targeted campaigns on Meta (Facebook, Instagram) and Google.</p>
+                            
+                            <h4>Meet the Departments:</h4>
+                            <ul>
+                                <li><strong>Sales:</strong> Samir Kumar (Sales Head), Jimmy (Team Lead)</li>
+                                <li><strong>Operations:</strong> Gautam (Operation Head), Bhavesh & Vinayak (Executives)</li>
+                                <li><strong>Accounts:</strong> Nupur, Anjali (Sr. Accounts Exe), Yogesh (Sr. Accounts Exe), Pooja</li>
+                                <li><strong>HR:</strong> Ankita (HR Manager), Ragini (Sr. HR)</li>
+                                <li><strong>Admin:</strong> Godhan</li>
+                                <li><strong>Graphics:</strong> Gautham</li>
+                            </ul>
+                            
+                            <h4>Company Process & Workflow:</h4>
+                            <ul>
+                                <li>As an RM, you are the bridge between DigitalBuzz and the client</li>
+                                <li>You will coordinate with Operations Team and Graphics Team</li>
+                                <li>The Accounts Team shares reports and invoices with clients</li>
+                            </ul>
+                            
+                            <h4>Rules & Regulations:</h4>
+                            <ul>
+                                <li><strong>Job Timings:</strong> 10:00 AM to 7:00 PM</li>
+                                <li><strong>Breaks:</strong> 30-minute lunch break, plus two 15-minute tea breaks</li>
+                                <li><strong>Dress Code:</strong> Business Formals</li>
+                            </ul>
+                            
+                            <h4>Your Career Path:</h4>
+                            <p>Sales Executive → RM → Senior RM → Team Lead → Branch Manager → Cluster Manager → Sales Head</p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                day: 2,
+                title: "Mastering the Bangalore Real Estate Market",
+                objective: "Develop deep understanding of Bangalore real estate landscape",
+                content: `
+                    <h2>Day 2: Mastering the Bangalore Real Estate Market</h2>
+                    <p><strong>Objective:</strong> To develop a deep understanding of the Bangalore real estate landscape, including key locations, major developers, and client profiles.</p>
+                    
+                    <h3>Segment 1: Bangalore Market & Connectivity Map</h3>
+                    <p>Understanding the city is crucial for efficient meeting planning. As an RM with a bike, you can navigate traffic effectively by knowing the key arterial roads and metro lines.</p>
+                    
+                    <div class="session-block">
+                        <h4>North Bangalore (Hebbal, Yelahanka, Devanahalli)</h4>
+                        <ul>
+                            <li><strong>Connectivity:</strong> Bellary Road (NH 44), upcoming Metro Blue Line</li>
+                            <li><strong>New Launch (2025):</strong> Prestige Somerville (near Old Airport Road)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="session-block">
+                        <h4>East Bangalore (Whitefield, Sarjapur Road, Marathahalli)</h4>
+                        <ul>
+                            <li><strong>Connectivity:</strong> Outer Ring Road (ORR), Purple Metro Line. The city's IT corridor</li>
+                            <li><strong>New Launch (2025):</strong> Godrej Woodscapes (Budigere Cross)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="session-block">
+                        <h4>South Bangalore (Kanakapura Road, Bannerghatta Road, Electronic City)</h4>
+                        <ul>
+                            <li><strong>Connectivity:</strong> Green Metro Line, NICE Ring Road</li>
+                            <li><strong>New Launch (2025):</strong> Brigade Sanctuary (off Sarjapur Road)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="session-block">
+                        <h4>West Bangalore (Rajajinagar, Yeshwanthpur, Tumkur Road)</h4>
+                        <ul>
+                            <li><strong>Connectivity:</strong> Green and Purple Metro Lines</li>
+                            <li><strong>New Launch (2025):</strong> Sobha Neopolis (near Panathur, Varthur)</li>
+                        </ul>
+                    </div>
+                    
+                    <h3>Segment 3: The Channel Partner (CP) Profile</h3>
+                    <ul>
+                        <li><strong>Who they are:</strong> A CP is a builder's official marketing partner who sells properties for a brokerage fee. They are our primary client.</li>
+                        <li><strong>Their Goal:</strong> To get a consistent flow of high-quality leads to convert into site visits and sales.</li>
+                        <li><strong>Types of CPs:</strong> Individual, Small Firm (4-5 people), and Big Firm (10+ employees)</li>
+                        <li><strong>The POC:</strong> The owner is your main Point of Contact. They are sophisticated and business-savvy. Approach them as a consultant, not a salesperson.</li>
+                    </ul>
+                `
+            },
+            {
+                day: 3,
+                title: "Sales Pitch & Calling",
+                objective: "Master the DigitalBuzz cold calling pitch and scripts",
+                content: `
+                    <h2>Day 3: Sales Pitch & Calling</h2>
+                    <p><strong>Training:</strong> Learn the DigitalBuzz cold calling pitch and scripts. Focus on the "Straight Line Method" to establish authority in the first 30 seconds.</p>
+                    <p><strong>Real Calling:</strong> Supervised live calls to potential clients to practice the pitch and build confidence.</p>
+                `
+            },
+            {
+                day: 4,
+                title: "F2F Meeting Module Training (Day 1)",
+                objective: "Learn face-to-face meeting process and structure",
+                content: `
+                    <h2>Day 4 & 5: F2F Meeting Module Training</h2>
+                    <p><strong>Training:</strong> A detailed walkthrough of the face-to-face (F2F) meeting process. This includes pre-meeting research, structuring the conversation from greeting to strategy presentation, and discussing company policies.</p>
+                `
+            },
+            {
+                day: 5,
+                title: "F2F Meeting Module Training (Day 2)",
+                objective: "Continue mastering the meeting process",
+                content: `
+                    <h2>Day 4 & 5: F2F Meeting Module Training (Continued)</h2>
+                    <p>Continuation of F2F meeting training with advanced scenarios and role-playing exercises.</p>
+                `
+            },
+            {
+                day: 6,
+                title: "Mock Sessions",
+                objective: "Practice meetings with feedback",
+                content: `
+                    <h2>Day 6: Mock Sessions</h2>
+                    <p><strong>Activity:</strong> Conduct mock F2F meetings with trainers and senior RMs playing the role of the client. Receive constructive feedback on your presentation, communication, and objection handling skills.</p>
+                `
+            },
+            {
+                day: 7,
+                title: "On-Field Meetings & Objection Handling (Day 1)",
+                objective: "Shadow senior RMs in real client meetings",
+                content: `
+                    <h2>Day 7, 8, & 9: On-Field Meetings & Objection Handling</h2>
+                    <p><strong>Activity:</strong> Accompany senior RMs on actual client meetings. Observe how they build rapport, present solutions, and handle real-world objections. Participate in post-meeting debriefs.</p>
+                `
+            },
+            {
+                day: 8,
+                title: "On-Field Meetings & Objection Handling (Day 2)",
+                objective: "Continue shadowing and learning",
+                content: `
+                    <h2>Day 7, 8, & 9: On-Field Meetings & Objection Handling (Continued)</h2>
+                    <p>Continue observing and learning from senior RMs in live client situations.</p>
+                `
+            },
+            {
+                day: 9,
+                title: "On-Field Meetings & Objection Handling (Day 3)",
+                objective: "Final day of shadowing experience",
+                content: `
+                    <h2>Day 7, 8, & 9: On-Field Meetings & Objection Handling (Final Day)</h2>
+                    <p>Final day of shadowing with focus on complex objection handling scenarios.</p>
+                `
+            },
+            {
+                day: 10,
+                title: "Your First Meeting (Shadowed)",
+                objective: "Lead your first client meeting with support",
+                content: `
+                    <h2>Day 10: Your First Meeting (Shadowed)</h2>
+                    <p><strong>Activity:</strong> You will lead your own client meeting from start to finish. A senior RM or Team Lead will accompany you to observe and provide support if needed.</p>
+                `
+            },
+            {
+                day: 11,
+                title: "Independent Meetings",
+                objective: "Conduct meetings independently",
+                content: `
+                    <h2>Day 11: Independent Meetings</h2>
+                    <p><strong>Activity:</strong> You will conduct your own client meetings independently. The focus is on applying all the training from the previous days in a live environment.</p>
+                `
+            },
+            {
+                day: 12,
+                title: "Review Meeting",
+                objective: "Comprehensive performance review and goal setting",
+                content: `
+                    <h2>Day 12: Review Meeting</h2>
+                    <p><strong>Objective:</strong> A comprehensive review of your performance with your Team Lead and the Sales Head.</p>
+                    
+                    <h3>Agenda:</h3>
+                    <ul>
+                        <li>Discuss feedback from mock calls and on-field meetings</li>
+                        <li>Review your understanding of products and processes</li>
+                        <li>Address any remaining questions or challenges</li>
+                        <li>Set clear performance goals for your first 30 days as a qualified Relationship Manager</li>
+                    </ul>
+                `
+            }
+        ];
+
+        // Generate day cards
+        function generateDayCards() {
+            const daysGrid = document.getElementById('daysGrid');
+            
+            trainingDays.forEach(day => {
+                const dayCard = document.createElement('div');
+                dayCard.className = 'day-card';
+                dayCard.onclick = () => showDayDetail(day);
+                
+                dayCard.innerHTML = `
+                    <div class="day-number">Day ${day.day}</div>
+                    <h3 class="day-title">${day.title}</h3>
+                    <p class="day-objective">${day.objective}</p>
+                `;
+                
+                daysGrid.appendChild(dayCard);
+            });
+        }
+
+        // Show day detail
+        function showDayDetail(day) {
+            const daysGrid = document.getElementById('daysGrid');
+            const dayDetail = document.getElementById('dayDetail');
+            const dayDetailContent = document.getElementById('dayDetailContent');
+            
+            daysGrid.style.display = 'none';
+            dayDetail.classList.add('active');
+            dayDetailContent.innerHTML = day.content;
+            
+            // Scroll to top
+            window.scrollTo({ top: 120, behavior: 'smooth' });
+        }
+
+        // Show overview
+        function showOverview() {
+            const daysGrid = document.getElementById('daysGrid');
+            const dayDetail = document.getElementById('dayDetail');
+            
+            daysGrid.style.display = 'grid';
+            dayDetail.classList.remove('active');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            generateDayCards();
+        });
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
