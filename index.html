@@ -84,7 +84,7 @@
             display: flex;
             flex-direction: column;
             transition: transform 0.3s ease-in-out;
-            z-index: 999; /* Ensure sidebar is above main content for mobile overlay */
+            z-index: 999;
         }
 
         .sidebar-header {
@@ -94,7 +94,7 @@
         }
 
         .sidebar-header img {
-            max-width: 180px; /* Adjusted for better visibility of logo */
+            max-width: 180px;
             height: auto;
             margin-bottom: 0.5rem;
         }
@@ -224,7 +224,7 @@
             border-radius: var(--border-radius);
             border: 1px solid var(--border-color);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Lighter initial shadow */
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
         .card:hover {
@@ -246,7 +246,7 @@
             margin-top: 2rem;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             border-radius: var(--border-radius);
-            overflow: hidden; /* Ensures rounded corners on table */
+            overflow: hidden;
         }
 
         th, td {
@@ -268,7 +268,23 @@
             background-color: #f1f1f1;
         }
 
-        /* --- Map Styling --- */
+        /* --- Map & Connectivity Styling --- */
+        .connectivity-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .connectivity-map-graphic img {
+            width: 100%;
+            height: auto;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
         .map-container {
             margin-top: 2rem;
             border-radius: var(--border-radius);
@@ -321,8 +337,11 @@
             .content-section {
                 padding: 1.5rem;
             }
-             .section-header h1 {
+            .section-header h1 {
                 font-size: 2rem;
+            }
+            .connectivity-container {
+                grid-template-columns: 1fr; /* Stack columns on smaller screens */
             }
         }
         
@@ -370,12 +389,11 @@
     <main class="main-content">
 
         <section id="day1" class="content-section fade-in">
-            <div class="section-header">
+             <div class="section-header">
                 <span class="day-badge pop-in">Day 1</span>
                 <h1>Company Induction & Foundation</h1>
                 <p>Understanding DigitalBuzz's vision, your role, and basic rules of engagement.</p>
             </div>
-
             <div class="card-container">
                 <div class="card fade-in">
                     <h3 class="card-title">Morning Session (10:00 AM - 1:00 PM)</h3>
@@ -398,7 +416,6 @@
                     </ul>
                 </div>
             </div>
-
             <h2>Rules & Regulations</h2>
             <ul>
                 <li><strong>Job Timings:</strong> 10:00 AM to 7:00 PM.</li>
@@ -414,13 +431,31 @@
                 <p>Develop a deep understanding of the Bangalore real estate landscape.</p>
             </div>
 
-            <h2>Segment 1: Bangalore Market & Connectivity Map</h2>
-            <p>Understanding the city is crucial for efficient meeting planning. As an RM with a bike, you can navigate traffic effectively by knowing the key arterial roads and metro lines.</p>
+            <h2>Segment 1: Bangalore Connectivity Deep Dive</h2>
+            <p>Efficient meeting planning requires a thorough knowledge of Bangalore's key arterial roads and Namma Metro lines. This allows you to bypass traffic and reach clients effectively.</p>
             
-            <div class="map-container pop-in">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d248757.9421876815!2d77.46612543444758!3d12.952993351998335!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c9b44e6d%3A0xf8dfc3e8517e4fe0!2sBengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1726823907722!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <div class="connectivity-container fade-in">
+                <div class="connectivity-details">
+                    <h3>Key Road Networks 🛣️</h3>
+                    <ul>
+                        <li><strong>Outer Ring Road (ORR):</strong> A 60 km loop road that is the lifeline for the IT corridor, connecting major hubs like Marathahalli, HSR Layout, and Hebbal.</li>
+                        <li><strong>Bellary Road (NH 44):</strong> The primary route connecting the city center to Kempegowda International Airport and North Bangalore.</li>
+                        <li><strong>Sarjapur Road:</strong> A major IT and real estate corridor in East Bangalore, connecting the ORR to Sarjapur town.</li>
+                        <li><strong>NICE Ring Road:</strong> Connects Electronic City and Bannerghatta Road to the western parts of the city, offering a faster (toll-based) alternative.</li>
+                    </ul>
+                     <h3>Namma Metro Network 🚇</h3>
+                    <ul>
+                        <li><strong>Purple Line:</strong> Runs East-West, connecting Whitefield (Kadugodi) to Challaghatta. Crucial for the IT crowd.</li>
+                        <li><strong>Green Line:</strong> Runs North-South, connecting Nagasandra to Silk Institute. Vital for industrial and residential areas.</li>
+                        <li><strong>Blue Line (Upcoming):</strong> A game-changer connecting Silk Board to the Airport via the ORR, set to drastically improve North-South connectivity.</li>
+                    </ul>
+                </div>
+                <div class="connectivity-map-graphic pop-in">
+                    
+                    <p style="text-align: center; font-size: 0.8rem; color: #777; margin-top: 5px;">Bangalore's primary road and metro routes.</p>
+                </div>
             </div>
-            
+
             <h2>Segment 2: A-Grade Developers & Their Projects</h2>
             <table class="fade-in">
                 <thead>
@@ -468,7 +503,7 @@
         </section>
 
         <section id="day3" class="content-section fade-in">
-            <div class="section-header">
+             <div class="section-header">
                 <span class="day-badge pop-in">Day 3</span>
                 <h1>Sales Pitch & Calling</h1>
                 <p>Learn the pitch, practice scripts, and make live calls.</p>
@@ -554,12 +589,10 @@
             const menuToggle = document.getElementById('menu-toggle');
             const sidebar = document.getElementById('sidebar');
 
-            // --- Mobile Menu Toggle ---
             menuToggle.addEventListener('click', () => {
                 sidebar.classList.toggle('open');
             });
             
-            // --- Close sidebar when a link is clicked on mobile ---
             navLinks.forEach(link => {
                 link.addEventListener('click', () => {
                     if (window.innerWidth <= 992) {
@@ -568,24 +601,18 @@
                 });
             });
 
-            // --- Intersection Observer for fade-in animations & active nav link ---
             const observerOptions = {
                 root: null,
                 rootMargin: '0px',
-                threshold: 0.2 // Reduced threshold to trigger animations sooner
+                threshold: 0.2
             };
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        // Add fade-in animation for content sections
                         entry.target.classList.add('visible');
+                        entry.target.querySelectorAll('.pop-in, .slide-in-left, .fade-in').forEach(el => el.classList.add('visible'));
 
-                        // Add specific animations for elements within the section
-                        entry.target.querySelectorAll('.pop-in').forEach(el => el.classList.add('visible'));
-                        entry.target.querySelectorAll('.slide-in-left').forEach(el => el.classList.add('visible'));
-
-                        // Update active navigation link
                         const id = entry.target.getAttribute('id');
                         navLinks.forEach(link => {
                             link.classList.remove('active');
@@ -593,11 +620,6 @@
                                 link.classList.add('active');
                             }
                         });
-                    } else {
-                        // Optional: remove visible class if you want elements to re-animate on scroll back
-                        // entry.target.classList.remove('visible');
-                        // entry.target.querySelectorAll('.pop-in').forEach(el => el.classList.remove('visible'));
-                        // entry.target.querySelectorAll('.slide-in-left').forEach(el => el.classList.remove('visible'));
                     }
                 });
             }, observerOptions);
@@ -606,15 +628,14 @@
                 observer.observe(section);
             });
 
-            // Initial visibility check for elements that might be in viewport on load
             const initialCheck = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('visible');
-                        observer.unobserve(entry.target); // Stop observing once visible
+                        observer.unobserve(entry.target);
                     }
                 });
-            }, { threshold: 0.1 }); // Small threshold for initial check
+            }, { threshold: 0.1 });
 
             document.querySelectorAll('.fade-in, .pop-in, .slide-in-left').forEach(el => {
                 initialCheck.observe(el);
